@@ -9,6 +9,6 @@ public class PlayerService {
         System.out.println("playing with count " + count);
 
         KafkaConnector.createProducer()
-                .send(new ProducerRecord<String, String>("player-1-topic", Integer.toString(count)));
+                .send(new ProducerRecord<String, String>("player-1-topic", Integer.toString(count), Integer.toString(count)));
     }
 }
