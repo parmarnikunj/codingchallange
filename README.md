@@ -3,19 +3,15 @@
 This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* coding challange
 
 ### How do I get set up? ###
+## zookeeper
+zookeeper-server-start zookeeper/server.properties
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## kafka-server
+kafka-server-start kafka/server.properties
+
 
 ### Contribution guidelines ###
 
