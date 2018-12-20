@@ -16,32 +16,14 @@ import static spark.Spark.*;
 public class App {
     public static void main(String[] args) {
 
-        ScoreValidationService scoreValidationService = new ScoreValidationService();
-        PlayService playService = new PlayService(new ScoringInterface(new Gson()), scoreValidationService);
-        ConsumerService consumerService = new ConsumerService(createConsumer(), new Gson(), playService, scoreValidationService);
+        //ScoreValidationService scoreValidationService = new ScoreValidationService();
+        //PlayService playService = new PlayService(new ScoringInterface(new Gson()), scoreValidationService);
+        //ConsumerService consumerService = new ConsumerService(createConsumer(), new Gson(), playService, scoreValidationService);
+
 
         port(Integer.parseInt(ServerPropReader.getSystemOrDefault(SERVER_PORT).toString()));
 
-        path("/health", () -> {
-            get("/ping", (r, s) -> "pong");
-        });
-
-        path("/api/v1", () -> {
-            before("/*", ((request, response) -> log.info("call received")));
-            path("/play", () -> {
-                get("/:count", (r, s) -> {
-                    Integer count = Integer.parseInt(r.params("count"));
-                    playService.play(new Score(count, System.currentTimeMillis()));
-                    return "playing";
-                });
-                get("/status", (r,s) -> {
-                    return "playing";
-                });
-
-            });
-
-        });
-
-        consumerService.play();
+        webSocket("/start", PlayWebSocket.class);
+        init();
     }
 }
