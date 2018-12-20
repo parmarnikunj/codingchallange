@@ -22,6 +22,29 @@ kafka-server-start kafka/server.properties
 
 ### starting service ###
 
+#### service for player-1 ####
+using mac
+1. open command prompt and set follwing env variables one by one
+	export SERVER_PORT=4000
+	export CLIENT_ID=player-1
+	export GROUP_ID=player_1_group
+	export TOPIC_NAME=player-1-topic
+	export CONSUMER_TOPIC=player-2-topic
+
+2. start service for player-1
+	java -jar target/player-service.jar
+
+#### service for player-1 ####
+1. open command prompt and set follwing env variables one by one
+	export SERVER_PORT=4001
+	export CLIENT_ID=player-2
+	export GROUP_ID=player_2_group
+	export TOPIC_NAME=player-2-topic
+	export CONSUMER_TOPIC=player-1-topic
+
+2. start service for player-2
+	java -jar target/player-service.jar
+
 
 # Kubernetes SUPPORT #
 ## Minkube ###

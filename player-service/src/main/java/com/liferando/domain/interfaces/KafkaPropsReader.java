@@ -41,7 +41,11 @@ public class KafkaPropsReader {
     }
 
     public static Object getSystemOrDefault(String prop) {
-        String systemProp = System.getenv().get(prop);
-        return systemProp == null ? defaultProps().get(prop) : systemProp;
+        String systemPropVal = System.getenv(toSystemPropName(prop));
+        return systemPropVal == null ? defaultProps().get(prop) : systemPropVal;
+    }
+
+    public static String toSystemPropName(String prop) {
+        return prop.toUpperCase().replace(".","_");
     }
 }

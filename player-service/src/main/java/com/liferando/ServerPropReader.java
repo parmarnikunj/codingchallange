@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ServerPropReader {
 
-    public static final String SERVER_PORT = "server.port";
+    public static final String SERVER_PORT = "SERVER_PORT";
 
     private static Map<String, Object> defaultProps() {
         HashMap<String, Object> defaultProps = new HashMap<>();
