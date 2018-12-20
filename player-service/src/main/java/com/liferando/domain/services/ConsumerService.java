@@ -44,7 +44,7 @@ public class ConsumerService {
                         try {
                             session.getRemote().sendString("You are the winner!");
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.info("error occured: ", e);
                         }
                     } else {
                         if (scoreValidationService.valid(score)) {
