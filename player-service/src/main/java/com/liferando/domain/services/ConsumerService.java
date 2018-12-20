@@ -41,13 +41,10 @@ public class ConsumerService {
                     if (scoreValidationService.isWinner(score)) {
                         log.info("You are the Winner!");
                         completableFuture.complete("Done");
-                        try {
-                            session.getRemote().sendString("You are the winner!");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        reportWinning(session);
                     } else {
                         if (scoreValidationService.valid(score)) {
+                            reportCurentScore(session,score);
                             playService.play(playService.applyRule(score.getValue()));
                         }
                         log.info("not valid score!", score);
@@ -58,5 +55,21 @@ public class ConsumerService {
 
         return completableFuture;
 
+    }
+
+    private void reportCurentScore(Session session, Score score) {
+        try {
+            session.getRemote().sendString("your current score is: "+ score.getValue());
+        } catch (IOException e) {
+            log.error("error: ", e);
+        }
+    }
+
+    public void reportWinning(Session session) {
+        try {
+            session.getRemote().sendString("You are the winner!");
+        } catch (IOException e) {
+            log.error("error: ", e);
+        }
     }
 }
