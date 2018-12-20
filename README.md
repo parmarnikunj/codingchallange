@@ -32,21 +32,12 @@ kafka-server-start kafka/server.properties
 	minikube start
 	
 ## HELM ##
-- install halm chart of kafka
-	```
-	helm install --name my-kafka incubator/kafka
-	
-	```
-	
-- install helm chart of player service with default values player 1  
-  	````
-	helm install -n player-service-1 player-service-helm/ 
-	```
-- install one more helm chart for player service with specific values for player 2
-	````
-	helm install -n player-service-2 -f values_player_1.yaml player-service-helm/ 
-	
-	```
+1. install halm chart of kafka
+ - ```helm install --name my-kafka incubator/kafka```
+2. install helm chart of player service with default values player 1  
+ - ```helm install -n player-service-1 player-service-helm/```
+3. install one more helm chart for player service with specific values for player 2
+ - ```helm install -n player-service-2 -f values_player_1.yaml player-service-helm/ ```
 
 
 ### Contribution guidelines ###
