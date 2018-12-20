@@ -2,16 +2,19 @@ package com.liferando;
 
 import com.google.gson.Gson;
 import com.liferando.domain.interfaces.ScoringInterface;
-import com.liferando.domain.model.ScoreChangedEvent;
+import com.liferando.domain.model.ScoreChangeCommand;
 import com.liferando.domain.services.ConsumerService;
 import com.liferando.domain.services.PlayService;
 import com.liferando.domain.services.ScoreValidationService;
-import org.eclipse.jetty.websocket.api.*;
-import org.eclipse.jetty.websocket.api.annotations.*;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.liferando.domain.interfaces.KafkaConnector.createConsumer;
 
@@ -45,7 +48,7 @@ public class PlayWebSocket {
     public void message(Session session, String message) throws IOException {
         Integer count = Integer.parseInt(message);
         session.getRemote().sendString("Game Started with Count : " + count); // and send it back
-        playService.play(new ScoreChangedEvent(count, System.currentTimeMillis()));
+        playService.play(new ScoreChangeCommand(count));
     }
 
 }

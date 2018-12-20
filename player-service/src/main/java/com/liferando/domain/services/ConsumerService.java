@@ -1,6 +1,7 @@
 package com.liferando.domain.services;
 
 import com.google.gson.Gson;
+import com.liferando.domain.model.ScoreChangeCommand;
 import com.liferando.domain.model.ScoreChangedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,8 @@ public class ConsumerService {
                         completableFuture.complete("Done");
                         reportWinning(session);
                     } else {
-                        if (scoreValidationService.valid(scoreChangedEvent)) {
+                        ScoreChangeCommand scoreChangeCommand = new ScoreChangeCommand(scoreChangedEvent.getValue());
+                        if (scoreValidationService.valid(scoreChangeCommand)) {
                             reportDomainEvent(session, scoreChangedEvent);
                             playService.play(playService.applyRule(scoreChangedEvent.getValue()));
                         }

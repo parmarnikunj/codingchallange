@@ -12,6 +12,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.concurrent.CompletableFuture;
 
+import static com.liferando.domain.model.EventType.SCORE_CHANGED;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -32,7 +33,7 @@ public class ScoringInterfaceTest {
         given(KafkaConnector.createProducer()).willReturn(producer);
         given(producer.send(any(ProducerRecord.class))).willReturn(new CompletableFuture());
 
-        scoringInterface.send(new ScoreChangedEvent(12, System.currentTimeMillis()));
+        scoringInterface.send(new ScoreChangedEvent(12, SCORE_CHANGED, System.currentTimeMillis()));
 
     }
 }

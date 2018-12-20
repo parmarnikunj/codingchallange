@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ScoreChangedEvent {
     private int value;
+    private EventType eventType;
     private long time;
 }
