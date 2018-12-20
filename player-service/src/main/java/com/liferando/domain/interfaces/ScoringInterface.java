@@ -1,7 +1,7 @@
 package com.liferando.domain.interfaces;
 
 import com.google.gson.Gson;
-import com.liferando.domain.model.Score;
+import com.liferando.domain.model.ScoreChangedEvent;
 import lombok.AllArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
@@ -13,11 +13,11 @@ public class ScoringInterface {
 
     private Gson gson;
 
-    public void send(Score score) {
+    public void send(ScoreChangedEvent scoreChangedEvent) {
         KafkaConnector.createProducer()
                 .send(new ProducerRecord<String, String>(
                         getSystemOrDefault(TOPIC_NAME).toString(),
-                        gson.toJson(score))
+                        gson.toJson(scoreChangedEvent))
                 );
     }
 }

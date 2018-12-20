@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Score {
+public class ScoreChangedEvent {
     private int value;
     private long time;
 }

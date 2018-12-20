@@ -1,7 +1,7 @@
 package com.liferando.domain.services;
 
 import com.google.gson.Gson;
-import com.liferando.domain.model.Score;
+import com.liferando.domain.model.ScoreChangedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.Consumer;
@@ -37,17 +37,17 @@ public class ConsumerService {
             while (true) {
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                 records.forEach(record -> {
-                    Score score = gson.fromJson(record.value(), Score.class);
-                    if (scoreValidationService.isWinner(score)) {
+                    ScoreChangedEvent scoreChangedEvent = gson.fromJson(record.value(), ScoreChangedEvent.class);
+                    if (scoreValidationService.isWinner(scoreChangedEvent)) {
                         log.info("You are the Winner!");
                         completableFuture.complete("Done");
                         reportWinning(session);
                     } else {
-                        if (scoreValidationService.valid(score)) {
-                            reportCurentScore(session,score);
-                            playService.play(playService.applyRule(score.getValue()));
+                        if (scoreValidationService.valid(scoreChangedEvent)) {
+                            reportDomainEvent(session, scoreChangedEvent);
+                            playService.play(playService.applyRule(scoreChangedEvent.getValue()));
                         }
-                        log.info("not valid score!", score);
+                        log.info("not valid scoreChangedEvent!", scoreChangedEvent);
                     }
                 });
             }
@@ -57,9 +57,9 @@ public class ConsumerService {
 
     }
 
-    private void reportCurentScore(Session session, Score score) {
+    private void reportDomainEvent(Session session, ScoreChangedEvent scoreChangedEvent) {
         try {
-            session.getRemote().sendString("your current score is: "+ score.getValue());
+            session.getRemote().sendString("your current score is: "+ scoreChangedEvent.getValue());
         } catch (IOException e) {
             log.error("error: ", e);
         }

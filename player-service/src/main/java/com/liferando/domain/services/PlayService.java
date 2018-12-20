@@ -1,7 +1,7 @@
 package com.liferando.domain.services;
 
 import com.liferando.domain.interfaces.ScoringInterface;
-import com.liferando.domain.model.Score;
+import com.liferando.domain.model.ScoreChangedEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,19 +18,19 @@ public class PlayService {
         this.scoringInterface = scoringInterface;
     }
 
-    public void play(Score score) {
-        if (scoreValidationService.valid(score)) {
-            scoringInterface.send(score);
+    public void play(ScoreChangedEvent scoreChangedEvent) {
+        if (scoreValidationService.valid(scoreChangedEvent)) {
+            scoringInterface.send(scoreChangedEvent);
         }
-        log.info("not sending invalid score!");
+        log.info("not sending invalid scoreChangedEvent!");
     }
 
-    public Score applyRule(int oldScore) {
+    public ScoreChangedEvent applyRule(int oldScore) {
 
         if (oldScore == 1) {
             log.info("Winner !!!");
         }
-        return new Score(businessLogic(oldScore), System.currentTimeMillis());
+        return new ScoreChangedEvent(businessLogic(oldScore), System.currentTimeMillis());
     }
 
 

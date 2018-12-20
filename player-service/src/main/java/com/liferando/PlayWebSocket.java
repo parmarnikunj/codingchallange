@@ -2,7 +2,7 @@ package com.liferando;
 
 import com.google.gson.Gson;
 import com.liferando.domain.interfaces.ScoringInterface;
-import com.liferando.domain.model.Score;
+import com.liferando.domain.model.ScoreChangedEvent;
 import com.liferando.domain.services.ConsumerService;
 import com.liferando.domain.services.PlayService;
 import com.liferando.domain.services.ScoreValidationService;
@@ -45,7 +45,7 @@ public class PlayWebSocket {
     public void message(Session session, String message) throws IOException {
         Integer count = Integer.parseInt(message);
         session.getRemote().sendString("Game Started with Count : " + count); // and send it back
-        playService.play(new Score(count, System.currentTimeMillis()));
+        playService.play(new ScoreChangedEvent(count, System.currentTimeMillis()));
     }
 
 }

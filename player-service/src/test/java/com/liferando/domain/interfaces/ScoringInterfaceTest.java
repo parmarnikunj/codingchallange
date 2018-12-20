@@ -1,7 +1,7 @@
 package com.liferando.domain.interfaces;
 
 import com.google.gson.Gson;
-import com.liferando.domain.model.Score;
+import com.liferando.domain.model.ScoreChangedEvent;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class ScoringInterfaceTest {
         given(KafkaConnector.createProducer()).willReturn(producer);
         given(producer.send(any(ProducerRecord.class))).willReturn(new CompletableFuture());
 
-        scoringInterface.send(new Score(12, System.currentTimeMillis()));
+        scoringInterface.send(new ScoreChangedEvent(12, System.currentTimeMillis()));
 
     }
 }
