@@ -9,4 +9,5 @@ public class Player {
     private String name;
     private String lastName;
     private Score score;
+    private Status status;
 }

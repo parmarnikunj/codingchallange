@@ -1,0 +1,10 @@
+server:
+  port: 4001
+topic:
+  name: player-1-topic
+consumer:
+  topic: player-2-topic
+client:
+  id: player-1
+group:
+  id: player-1

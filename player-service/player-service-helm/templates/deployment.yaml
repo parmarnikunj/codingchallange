@@ -1,0 +1,64 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "player-service-helm.fullname" . }}
+  labels:
+    app: {{ template "player-service-helm.name" . }}
+    chart: {{ template "player-service-helm.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "player-service-helm.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "player-service-helm.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: server.port
+          value: "{{ .Values.server.port }}"
+        - name: topic.name
+          value: "{{ .Values.topic.name }}"
+        - name: consumer.topic
+          value: "{{ .Values.consumer.topic }}"
+        - name: client.id
+          value: "{{ .Values.client.id }}"
+        - name: group.id
+          value: "{{ .Values.group.id }}"
+        - name: bootstrap.servers
+          value: "{{ .Values.bootstrap.servers }}"
+        ports:
+        - name: http
+          containerPort: {{ .Values.server.port}}
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health/ping
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health/ping
+            port: http
+        resources:
+  {{ toYaml .Values.resources | indent 12 }}
+  {{- with .Values.nodeSelector }}
+      nodeSelector:
+    {{ toYaml . | indent 8 }}
+    {{- end }}
+      {{- with .Values.affinity }}
+          affinity:
+        {{ toYaml . | indent 8 }}
+        {{- end }}
+          {{- with .Values.tolerations }}
+              tolerations:
+            {{ toYaml . | indent 8 }}
+            {{- end }}
