@@ -24,17 +24,17 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-        - name: server.port
+        - name: SERVER_PORT
           value: "{{ .Values.server.port }}"
-        - name: topic.name
+        - name: TOPIC_NAME
           value: "{{ .Values.topic.name }}"
-        - name: consumer.topic
+        - name: CONSUMER_TOPIC
           value: "{{ .Values.consumer.topic }}"
-        - name: client.id
+        - name: CLIENT_ID
           value: "{{ .Values.client.id }}"
-        - name: group.id
+        - name: GROUP_ID
           value: "{{ .Values.group.id }}"
-        - name: bootstrap.servers
+        - name: BOOTSTRAP_SERVERS
           value: "{{ .Values.bootstrap.servers }}"
         ports:
         - name: http

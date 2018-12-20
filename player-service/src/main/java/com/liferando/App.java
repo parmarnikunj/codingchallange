@@ -13,5 +13,7 @@ public class App {
 
         webSocket("/start", PlayWebSocket.class);
         init();
+
+        get("/health/ping", (r,s) -> "pong");
     }
 }
