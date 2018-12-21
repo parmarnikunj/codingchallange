@@ -41,6 +41,7 @@ public class PlayWebSocket {
 
     @OnWebSocketClose
     public void closed(Session session, int statusCode, String reason) {
+        consumerService.close();
         sessions.remove(session);
     }
 

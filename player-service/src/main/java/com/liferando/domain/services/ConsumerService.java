@@ -74,4 +74,8 @@ public class ConsumerService {
             log.error("error: ", e);
         }
     }
+
+    public void close() {
+        consumer.close();
+    }
 }
